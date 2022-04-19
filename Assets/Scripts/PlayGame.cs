@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using  UnityEngine.UI ; 
-
+// az in file estefade sahih nashude choon shak dashtam sakhtan nemone az server kare dorostiye ya na ?? 
 namespace  GameServer 
 {
     public class PlayGame : MonoBehaviour

@@ -21,9 +21,7 @@ namespace GameServer
         private static TcpListener tcpListener;
         public int Podsnumber=1;
         
-        // mn zadam
-        // public Client Cli1 = new Client(1);
-        // private Client cli2; 
+         
         
 
         //static chera ? 
@@ -50,7 +48,6 @@ namespace GameServer
             Debug.Log( $"Server started on port {Port}.");
             
         }
-        
 
         // static chera ?
         private static void TCPConnectCallback(IAsyncResult _result)
@@ -76,25 +73,10 @@ namespace GameServer
                     return;
                 }
             }
-
-           
-            // // من نوشتم 
             
-            // clients[1] = clients[2];
-            // clients[Client.TCP.ListId].tcp.Connect(_client);
-            // // chera tcp ro nrmitunam estefade kunam 
-            // Client.tcp.Connect(_client);
-            // clients[Client.TCP.ListId] = _client ;
-            // // khodam zadam
-
-          //  Console.WriteLine($"{_client.Client.RemoteEndPoint} failed to connect: Server full!");
-          // do debuglog
         }
-
-        // private void SortClient()
-        // {
-        //     clients[0] = client
-        // }
+        
+        
 
         private static void InitializeServerData()
         {
@@ -104,36 +86,15 @@ namespace GameServer
             }
         }
         
-        public static void WriteData(int j , bool x)
+        // az play mode kharej shim port baz mimune 
+        public void StopServer()
         {
-            // Console.WriteLine("listid after connect {0} clientdicId {1} - ip " ,
-            //     clients[j].tcp.ListId, j );
-            if (x == true)
-            {
-               byte[] on = { 0x42, 0x72, 0x41, 0x74, 11, 0x10, 0xFF, 0xFF, 0xFF, 0x0A };
-                           on[4] = clients[j].tcp.ListId;
-                           NetworkStream stream1 =  clients[j].tcp.socket.GetStream();
-                         //  NetworkStream st1 = clients[1].tcp.stream  in karo nabayad kard 
-                           
-                           stream1.Write(on, 0, on.Length); 
-            }
             
+            tcpListener.Stop();
+            // bayad stream ha va socket haro ham End kunim 
+            // to do 
         }
 
-        public  void Testjust(int numberOfPod)
-        {
-            byte[] on = { 0x42, 0x72, 0x41, 0x74, 2, 0x10, 0xFF, 0xFF, 0xFF, 0x0A };
-            // bayad az khat zir estefade beshe 
-          //  on[4] = clients[numberOfPod].tcp.ListId;
-          
-          // byte forTest = 11;
-          // on[4] = forTest; 
-          
-            // in stream nabayad close she >? 
-           NetworkStream stream1 =  clients[numberOfPod].tcp.socket.GetStream();
-                           
-            stream1.Write(on, 0, on.Length); 
-        }
 
         public void TurnOn(int clinetKey)
         {
@@ -153,38 +114,7 @@ namespace GameServer
             //in stream baz mimone 
         }
 
-        public void StopServer()
-        {
-            
-            tcpListener.Stop();
-            // bayad stream ha va socket haro ham End kunim 
-            // to do 
-        }
-
-        // in karo nakunim choon dastgah hang mikune 
-        public void TurnOnWithoutId()
-        {
-            byte[] on = { 0x42, 0x72, 0x41, 0x74, 11, 0x10, 0xFF, 0xFF, 0xFF, 0x0A };
-            int r;
-            byte test = 1;
-           
-            foreach (var item  in clients)
-            {
-                NetworkStream stream1 =  item.Value.tcp.socket.GetStream();
-                
-                for ( r = 1; r < 12; r++)
-                {
-                    
-                    on[4] = test;
-                    stream1.Write(on, 0, on.Length); 
-                    test++;
-                }
-                stream1.Close();
-            }
-            
-        }
-        
-        
+       
 
         //baayada az LisId estefade she  
         // ma key dictinary ro midim khodesh ListId dara khode value.listid
@@ -224,6 +154,96 @@ namespace GameServer
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //***Ignore lines below***
+        
+        // mn zadam
+        // public Client Cli1 = new Client(1);
+        // private Client cli2;
+        
+        // این زیریا چرک نویسه 
+        
+        // private void SortClient()
+        // {
+        //     clients[0] = client
+        // }
+        // // من نوشتم 
+            
+        // clients[1] = clients[2];
+        // clients[Client.TCP.ListId].tcp.Connect(_client);
+        // // chera tcp ro nrmitunam estefade kunam 
+        // Client.tcp.Connect(_client);
+        // clients[Client.TCP.ListId] = _client ;
+        // // khodam zadam
+
+        //  Console.WriteLine($"{_client.Client.RemoteEndPoint} failed to connect: Server full!");
+        // do debuglog
+        
+        
+        public static void WriteData(int j , bool x)
+        {
+            // Console.WriteLine("listid after connect {0} clientdicId {1} - ip " ,
+            //     clients[j].tcp.ListId, j );
+            if (x == true)
+            {
+                byte[] on = { 0x42, 0x72, 0x41, 0x74, 11, 0x10, 0xFF, 0xFF, 0xFF, 0x0A };
+                on[4] = clients[j].tcp.ListId;
+                NetworkStream stream1 =  clients[j].tcp.socket.GetStream();
+                //  NetworkStream st1 = clients[1].tcp.stream  in karo nabayad kard 
+                           
+                stream1.Write(on, 0, on.Length); 
+            }
+            
+        }
+        
+        public  void Testjust(int numberOfPod)
+        {
+            byte[] on = { 0x42, 0x72, 0x41, 0x74, 2, 0x10, 0xFF, 0xFF, 0xFF, 0x0A };
+            // bayad az khat zir estefade beshe 
+            //  on[4] = clients[numberOfPod].tcp.ListId;
+          
+            // byte forTest = 11;
+            // on[4] = forTest; 
+          
+            // in stream nabayad close she >? 
+            NetworkStream stream1 =  clients[numberOfPod].tcp.socket.GetStream();
+                           
+            stream1.Write(on, 0, on.Length); 
+        }
+        
+        // in karo nakunim choon dastgah hang mikune 
+        // دستگاه هنگ میکنه به خاطر لوپ . استفاده ای هم نداره این منطق 
+        // **** ignore this method 
+        public void TurnOnWithoutId()
+        {
+            byte[] on = { 0x42, 0x72, 0x41, 0x74, 11, 0x10, 0xFF, 0xFF, 0xFF, 0x0A };
+            int r;
+            byte test = 1;
+           
+            foreach (var item  in clients)
+            {
+                NetworkStream stream1 =  item.Value.tcp.socket.GetStream();
+                
+                for ( r = 1; r < 12; r++)
+                {
+                    
+                    on[4] = test;
+                    stream1.Write(on, 0, on.Length); 
+                    test++;
+                }
+                stream1.Close();
+            }
+            
+        }
         public void play2()
         {
             // kare dorostiye ? jaye dorostiye ? 
