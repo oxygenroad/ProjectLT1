@@ -42,7 +42,7 @@ namespace GameServer
             public byte[] _data; 
             
             // vazit on or off  /// agar static kunim chi mishe ? 
-            public bool OnOrOff = false; 
+            public  bool OnOrOff  =false ; 
 
             public TCP(int _id)
             {

@@ -15,19 +15,31 @@ namespace GameServer
        // private Client clientfile;
        
         public static int MaxPlayers { get; private set; }
+        
         public static int Port { get; private set; }
+
+       // in Client classiye ke khodesh filesh ro zade 
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
 
         private static TcpListener tcpListener;
         public int Podsnumber=1;
-        
+    
          
+          bool statePod1;
+          // =clients[1].tcp.OnOrOff ; 
         
 
         //static chera ? 
-        private void Start()
+         void Start()
         {
           //  clientfile = GameObject.Find("Client").GetComponent<Client>();
+        }
+
+        void update ()
+         {
+             statePod1 = clients[1].tcp.OnOrOff ; 
+
+            
         }
 
         public static void Starting(int _maxPlayers, int _port)
@@ -69,7 +81,7 @@ namespace GameServer
                     Debug.Log( "listid after connect {0} clientdicId {1} - ip {2}" 
                        // , clients[i].tcp.ListId, i , _client.Client.RemoteEndPoint
                         );
-                    
+                    // fek kunam gozashte ta avalin socket khali ro ke por kard az for beznebiroon 
                     return;
                 }
             }
@@ -82,6 +94,7 @@ namespace GameServer
         {
             for (int i = 1; i <= MaxPlayers; i++)
             {
+                // in Client classiye ke khodesh filesh ro zade 
                 clients.Add(i, new Client(i));
             }
         }
@@ -90,11 +103,36 @@ namespace GameServer
         public void StopServer()
         {
             
-            tcpListener.Stop();
+           
+
+            for (int i = 1; i <= MaxPlayers; i++)
+            {
+                if (clients[i].tcp.socket != null)
+                {
+                    clients[i].tcp.socket.Close() ; 
+                    
+                   // Console.WriteLine("listid after connect {0} clientdicId {1} - ip {2}" ,
+                    //    clients[i].tcp.ListId, i , _client.Client.RemoteEndPoint );
+                    Debug.Log( "client" + i + "is closed" );
+                    // in return be che kar miad khodesh mire sare for dg  // baraye biron kardan az fore 
+                     // return; // inja ehtiaji nist  
+                     // vali for man ta tah max ro mire 
+                }
+
+                else if (clients[i].tcp.socket==null )
+                 {
+                  Debug.Log( "there is no socket from client : " + i   );
+                  return ;
+                }
+            }
+
+
+             tcpListener.Stop();
             // bayad stream ha va socket haro ham End kunim 
             // to do 
+            // akharesh stop kardam 
         }
-
+    NetworkStream stream2 ;
 
         public void TurnOn(int clinetKey)
         {
@@ -106,11 +144,13 @@ namespace GameServer
             // on[4] = forTest; 
           
             // in stream nabayad close she >? 
-            NetworkStream stream1 =  clients[clinetKey].tcp.socket.GetStream();
-            stream1.Write(on, 0, on.Length);
+           // NetworkStream
+             stream2 =  clients[clinetKey].tcp.socket.GetStream();
+            Debug.Log("stream1 created ") ;
+            stream2.Write(on, 0, on.Length);
             // vaziat ro on mikunim 
             clients[clinetKey].tcp.OnOrOff = true; 
-            
+            statePod1 = true ;
             //in stream baz mimone 
         }
 
@@ -128,6 +168,7 @@ namespace GameServer
             NetworkStream OffStream = clients[i].tcp.socket.GetStream(); 
             OffStream.Write( off , 0 , off.Length);
             clients[i].tcp.OnOrOff = false; 
+            
         }
 
 
@@ -137,12 +178,15 @@ namespace GameServer
         {
             int random2 = Random.Range(1, Podsnumber+1);
             TurnOn(random2);
+           // Debug.Log (podState) ;
             int GameRepeat = 1; 
             bool podState = clients[random2].tcp.OnOrOff ;
             
+            
             while(GameRepeat<3)
             {
-                if (podState == false)
+                // in pod state ke update nemishe 
+                if (clients[random2].tcp.OnOrOff == false)
                 {
                     random2 = Random.Range(1, Podsnumber+1); 
                     TurnOn(random2);
@@ -150,6 +194,96 @@ namespace GameServer
                     continue; 
                 } 
             }
+        }
+
+         public IEnumerator Play4() 
+         {
+                    int random2 = Random.Range(1, Podsnumber+1);
+                    int GameRepeat = 1; 
+                    
+
+                    Debug.Log ("game start ") ;
+
+                     TurnOn(random2);
+                     bool podState = clients[random2].tcp.OnOrOff ;
+                     Debug.Log (" before while "+podState) ;
+
+                     while (GameRepeat<3) 
+                     {
+                         Debug.Log("in while loop "+podState);
+                         
+                         if (clients[random2].tcp.OnOrOff  == false)
+                         {
+                             Debug.Log("first of if "+podState);
+                            random2 = Random.Range(1, Podsnumber+1); 
+                            TurnOn(random2);
+                            // IN TURNON YE STREAM DG MISAZE HAR DAFE  IN KHUB NIST 
+                             podState = clients[random2].tcp.OnOrOff ; 
+                              GameRepeat++; 
+                              Debug.Log("End of if "+podState);
+                            // in continue nabashe inja ham okeye 
+                            continue; 
+                          }
+                           yield return null ;
+                     }
+
+        }
+
+
+// yek pod ro roshan mikune bazikun zarbe bezane pod badi ro roshan mikune 
+        public IEnumerator Play6() {
+            int hitsNumber = 0 ; 
+            int random2 = Random.Range(1, Podsnumber+1);  
+           
+            while ( hitsNumber<10) {
+               // yield return null ; 
+               // shart in IF optional ast ya mitune 2s begzare 
+               // to tanzimat bayad bege hit ya zaman 
+
+              // bekhatere hamin ma faghat bayad ye bool taht onvane SHART bedim be if 
+              
+                if (statePod1==false) {
+
+                    hitsNumber++ ; 
+                    TurnOn(random2) ; 
+                    
+                }
+
+                // else if ( i>=6){
+                //     Debug.Log ("hi mohi") ;
+                //     i++ ;
+                // }
+               yield return null ; 
+                //yield return new WaitForSeconds(1f) ;
+            }
+
+            
+        }
+
+            public IEnumerator Play7() {
+            int i = 1 ; 
+            int random2 = Random.Range(1, Podsnumber+1);
+
+            while ( i<10) {
+
+                if (i<6) {
+
+                    TurnOn(1) ; 
+                    i++ ; 
+                }
+
+                else if ( i>=6){
+                    Debug.Log ("hi mohi") ;
+                    i++ ;
+                }
+                yield return new WaitForSeconds(1f) ;
+            }
+
+            
+        }
+
+        public void Play5() {
+            StartCoroutine(Play6()) ; 
         }
         
         
@@ -162,6 +296,8 @@ namespace GameServer
         
         
         
+        
+
         
         
         //***Ignore lines below***
