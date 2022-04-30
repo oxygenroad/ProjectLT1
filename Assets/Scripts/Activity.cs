@@ -18,36 +18,36 @@ public class Activity : MonoBehaviour
 
 
 
-    public bool  Final(int spendTime , int curenthit) {
-
-        if ( FinalaTime!=null && FinalHit == null ) {
-
-            if ( FinalTime > SpendTime){
-
-                return true  ; 
-            }
-            else if {
-                return false ; 
-
-            }
-
-
-        }
-        else  (FinalHit) { 
-            
-            if ( FinalHit > curenthit) {
-
-                return true  ;
-            }
-            else if {
-                return false  ;
-            }
-
-    
-         }
-
-
-    
+    // public bool  Final(int spendTime , int curenthit) {
+    //
+    //     if ( FinalaTime!=null && FinalHit == null ) {
+    //
+    //         if ( FinalTime > SpendTime){
+    //
+    //             return true  ; 
+    //         }
+    //         else if {
+    //             return false ; 
+    //
+    //         }
+    //
+    //
+    //     }
+    //     else  (FinalHit) { 
+    //         
+    //         if ( FinalHit > curenthit) {
+    //
+    //             return true  ;
+    //         }
+    //         else if {
+    //             return false  ;
+    //         }
+    //
+    //
+    //      }
+    //
+    //
+    //
 
 
 }

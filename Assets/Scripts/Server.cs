@@ -241,7 +241,7 @@ namespace GameServer
                // to tanzimat bayad bege hit ya zaman 
 
               // bekhatere hamin ma faghat bayad ye bool taht onvane SHART bedim be if 
-              
+              statePod1 = clients[random2].tcp.OnOrOff;
                 if (statePod1==false) {
 
                     hitsNumber++ ; 
